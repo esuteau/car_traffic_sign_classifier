@@ -1,0 +1,38 @@
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	6	16	10	120	84	5	True	1	0	False	0.001	True	0.1	0.8823129244131837
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	6	16	10	120	84	5	True	1	0	False	0.005	True	0.1	0.9299319725458314
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	6	16	10	120	84	5	True	1	0	False	0.01	True	0.1	0.8986394558093445
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+256	6	16	10	120	84	5	True	1	0	False	0.005	True	0.1	0.9201814056524074
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+256	6	16	10	120	84	5	True	1	0	False	0.001	True	0.1	0.8866213144899225
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+512	6	16	10	120	84	5	True	1	0	False	0.001	True	0.1	0.866439911783958
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+512	6	16	20	120	84	5	True	1	0	False	0.001	True	0.1	0.8770975029117126
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+256	6	16	20	120	84	5	True	1	0	False	0.001	True	0.1	0.8907029476025208
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	6	16	20	120	84	5	True	1	0	False	0.001	True	0.1	0.8970521539787587
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+64	6	16	20	120	84	5	True	1	0	False	0.001	True	0.1	0.9015873016143332
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+64	6	16	20	120	84	5	True	1	0	False	0.005	True	0.1	0.9331065762340347
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+64	16	32	20	120	84	5	True	1	0	False	0.005	True	0.1	0.929251700950588
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	16	32	20	120	84	5	True	1	0	False	0.005	True	0.1	0.9335600902434109
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	16	32	20	240	120	5	True	1	0	False	0.005	True	0.1	0.9396825394392554
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	16	32	20	240	120	5	False	3	0	False	0.005	True	0.1	0.8521541949032115
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	16	32	20	240	120	5	True	1	0	True	0.005	True	0.1	0.05442176870748299
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	16	32	20	240	120	5	True	1	0	False	0.005	True	0.1	0.9321995461068185
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	16	32	20	240	120	5	True	1	0	False	0.001	True	0.1	0.9310657589073355
+batch_size	conv1_depth	conv2_depth	epochs	fc1_out_size	fc2_out_size	filter_size	greyscale	input_depth	mu	normalization	rate	shuffle	sigma	Valid. Acc.
+128	32	64	20	240	120	5	True	1	0	False	0.001	True	0.1	0.9594104308390022
