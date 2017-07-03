@@ -110,9 +110,7 @@ Shuffling the data makes a lot of sense to make sure each batch trained has a co
 At first, I thought that converting the image to grayscale would be a bad idea, as loosing the color information could be critical to the classification of the signs. I seems that I was wrong and the network trains much faster with only grayscale images. I still believe that maybe a more complex network architecture would take advantage of the RGB colors for classification and reach a higher accuracy.
 I guess that working with grayscale helps the network focus on extracting the most important features of each sign.
 
-I also played with normalization but it did not help much. The network usually trained much faster with non normalized data...
-
-In the end, I just convert to grayscale and shuffle, and with the right network architecture, I get close to 95% of accuracy.
+In the end, I converted the data to grayscale, normalized and shuffled, and with my final network architecture, I get 95% of accuracy on the validation set
 
 ####2. Final model architecture
 
