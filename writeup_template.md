@@ -19,11 +19,11 @@ The goals / steps of this project are the following:
 [image2]: ./Visualizations/distribution_training.png "Distribution of the Training Set"
 [image3]: ./Visualizations/distribution_validation.png "Distribution of the Validation Set"
 [image4]: ./Visualizations/distribution_test.png "Distribution of the Test Set"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
-
+[image5]: ./Visualizations/web_image_set/modified/traffic_sign_1_edited.png "Traffic Sign 1"
+[image6]: ./Visualizations/web_image_set/modified/traffic_sign_2_edited.png "Traffic Sign 2"
+[image7]: ./Visualizations/web_image_set/modified/traffic_sign_3_edited.png "Traffic Sign 3"
+[image8]: ./Visualizations/web_image_set/modified/traffic_sign_4_edited.png "Traffic Sign 4"
+[image9]: ./Visualizations/web_image_set/modified/traffic_sign_5_edited.png "Traffic Sign 5"
 
 
 ## Rubric Points
@@ -201,9 +201,9 @@ This seems to be true as the network got better with deeper convolutions.
 
 
 My final model results were:
-* training set accuracy of ? (Did not save the training set accuracy)
-* validation set accuracy of 0.959 
-* test set accuracy of 0.94
+* training set accuracy of 100%
+* validation set accuracy of 96.2% 
+* test set accuracy of 94.2%
 
 ###Test a Model on New Images
 
@@ -211,42 +211,68 @@ My final model results were:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image5] ![alt text][image6] ![alt text][image7] 
+![alt text][image8] ![alt text][image9]
 
-The first image might be difficult to classify because ...
+Those images should be predicted correctly by the network. They seem to present no particular problem.
+I cropped them to a square size to format them similarly to the training data.
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+Then my code resize them to 32x32x3 before applying the same pre processing steps as the training data, and feeding them to the network for classification.
 
-Here are the results of the prediction:
+####2. Discuss the model's predictions
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Road Work      		| Road Work  									| 
+| General Caution     	| General Caution 								|
+| Right-of-way		    | Right-of-way									|
+| No Entry  			| No Entry      					    		|
+| 30 km/h	      		| 30 km/h					 				    |
 
+The model did very well on this test set. 100% prediction. Since we do get a 94% accuracy, this is expected on such a small dataset.
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+####3. Describe how certain the model is when predicting on each of the five new images.
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+For each of the 5 images, here is how certain the code is in predicting the different traffic signs:
+```
+-----------------------------------------
+Top Probabilities for image 1:
+  Road work: 100.00 %
+  General caution: 0.00 %
+  Dangerous curve to the right: 0.00 %
+  Bicycles crossing: 0.00 %
+  Turn right ahead: 0.00 %
+-----------------------------------------
+Top Probabilities for image 2:
+  General caution: 100.00 %
+  Right-of-way at the next intersection: 0.00 %
+  Pedestrians: 0.00 %
+  Go straight or left: 0.00 %
+  Traffic signals: 0.00 %
+-----------------------------------------
+Top Probabilities for image 3:
+  Right-of-way at the next intersection: 100.00 %
+  Beware of ice/snow: 0.00 %
+  End of no passing: 0.00 %
+  Pedestrians: 0.00 %
+  Dangerous curve to the right: 0.00 %
+-----------------------------------------
+Top Probabilities for image 4:
+  No entry: 100.00 %
+  Traffic signals: 0.00 %
+  Turn right ahead: 0.00 %
+  Beware of ice/snow: 0.00 %
+  Turn left ahead: 0.00 %
+-----------------------------------------
+Top Probabilities for image 5:
+  Speed limit (30km/h): 100.00 %
+  Speed limit (80km/h): 0.00 %
+  Speed limit (50km/h): 0.00 %
+  Speed limit (20km/h): 0.00 %
+  Speed limit (70km/h): 0.00 %
+```
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
-
-
-For the second image ... 
+Nothing much to say here, for each of the signs, there is just one clear winner.
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
