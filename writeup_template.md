@@ -19,11 +19,11 @@ The goals / steps of this project are the following:
 [image2]: ./Visualizations/distribution_training.png "Distribution of the Training Set"
 [image3]: ./Visualizations/distribution_validation.png "Distribution of the Validation Set"
 [image4]: ./Visualizations/distribution_test.png "Distribution of the Test Set"
-[image5]: ./Visualizations/web_image_set/modified/traffic_sign_1_edited.png "Traffic Sign 1"
-[image6]: ./Visualizations/web_image_set/modified/traffic_sign_2_edited.png "Traffic Sign 2"
-[image7]: ./Visualizations/web_image_set/modified/traffic_sign_3_edited.png "Traffic Sign 3"
-[image8]: ./Visualizations/web_image_set/modified/traffic_sign_4_edited.png "Traffic Sign 4"
-[image9]: ./Visualizations/web_image_set/modified/traffic_sign_5_edited.png "Traffic Sign 5"
+[image5]: ./Visualizations/web_image_set/modified/traffic_sign_1_edited.jpg "Traffic Sign 1"
+[image6]: ./Visualizations/web_image_set/modified/traffic_sign_2_edited.jpg "Traffic Sign 2"
+[image7]: ./Visualizations/web_image_set/modified/traffic_sign_3_edited.jpg "Traffic Sign 3"
+[image8]: ./Visualizations/web_image_set/modified/traffic_sign_4_edited.jpg "Traffic Sign 4"
+[image9]: ./Visualizations/web_image_set/modified/traffic_sign_5_edited.jpg "Traffic Sign 5"
 
 
 ## Rubric Points
@@ -211,8 +211,11 @@ My final model results were:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image5] ![alt text][image6] ![alt text][image7] 
-![alt text][image8] ![alt text][image9]
+<img src="/Visualizations/web_image_set/modified/traffic_sign_1_edited.jpg" width="120" height="120">
+<img src="/Visualizations/web_image_set/modified/traffic_sign_2_edited.jpg" width="120" height="120">
+<img src="/Visualizations/web_image_set/modified/traffic_sign_3_edited.jpg" width="120" height="120">
+<img src="/Visualizations/web_image_set/modified/traffic_sign_4_edited.jpg" width="120" height="120">
+<img src="/Visualizations/web_image_set/modified/traffic_sign_5_edited.jpg" width="120" height="120">
 
 Those images should be predicted correctly by the network. They seem to present no particular problem.
 I cropped them to a square size to format them similarly to the training data.
