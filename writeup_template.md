@@ -1,9 +1,5 @@
 #**Traffic Sign Recognition** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Build a Traffic Sign Recognition Project**
@@ -19,43 +15,89 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
+[image1]: ./Visualizations/input_example.png "Example of Traffic Sign from the dataset"
+[image2]: ./Visualizations/distribution_training.png "Distribution of the Training Set"
+[image3]: ./Visualizations/distribution_validation.png "Distribution of the Validation Set"
+[image4]: ./Visualizations/distribution_test.png "Distribution of the Test Set"
 [image5]: ./examples/placeholder.png "Traffic Sign 2"
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 
+
+
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+###Writeup
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+This writeup explains the different steps behind my Traffic Sign Classifier.
+The code can be found [here](https://github.com/esuteau/car_traffic_sign_classifier.ipynb)
 
 ###Data Set Summary & Exploration
 
-####1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+####1. The first hurdle in this project was to find a way to automatically download the German traffic Sign Dataset so that anyone could easily retrain my network. It wasn't really part of the project but I thought it would be really useful for training my network on an AWS instance.
+I used tqdm and a code snippet from the deep-learning nano degree to do that. It downloads and unzips the data automatically.
+Here is how I did it:
+```python
+# Download the dataset and extract it
+base_path = '/home/carnd/car_traffic_sign_classifier/'
+traffic_signs_dataset_folder_path = base_path
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
+class DLProgress(tqdm):
+    last_block = 0
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+    def hook(self, block_num=1, block_size=1, total_size=None):
+        self.total = total_size
+        self.update((block_num - self.last_block) * block_size)
+        self.last_block = block_num
+
+if not isfile('traffic-signs-data.zip'):
+    with DLProgress(unit='B', unit_scale=True, miniters=1, desc='Traffic Signs Dataset') as pbar:
+        urlretrieve(
+            'https://d17h27t6h515a5.cloudfront.net/topher/2017/February/5898cd6f_traffic-signs-data/traffic-signs-data.zip',
+            'traffic-signs-data.zip',
+            pbar.hook)
+
+if not isfile('train.p'):
+    with ZipFile('traffic-signs-data.zip', 'r') as zip:
+        print('Extracting the zipfile to {}'.format(traffic_signs_dataset_folder_path))
+        zip.extractall()
+        zip.close()
+```
+
+I used the shape function to get the size of the different datasets, with the following results:
+
+* The size of training set is 34799
+* The size of the validation set is 4410
+* The size of test set is 12630
+* The shape of a traffic sign image is (32, 32, 3)
+* The number of unique classes/labels in the data set is 43
 
 ####2. Include an exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+The first thing I did was to look at an example from the training set. I was curious what the data looked like.
+Here is an example of traffic sign:
 
 ![alt text][image1]
+
+So the input images are 32x32x3, nicely cropped right around the sign.
+
+Then one thing of interest was the distribution of the data in the 3 different sets.
+Here is the distribution of the training set, normalized to ease the comparison:
+![alt text][image2]
+
+So the different classes are not randomly distributed in the dataset, which can be a good thing if it actually represents the probabilities to encounter each sign in Germany, but could be an issue if the cross validation and test have totally different distributions.
+A simple comparison between the most common sign and the least common showed that the most common sign had around 11.5 more data samples than the least common.
+
+Now let's look at the validation and test sets.
+
+![alt text][image3]
+
+![alt text][image4]
+
+Graphically, the datasets look very similar to the training set, which is a good thing for the project.
 
 ###Design and Test a Model Architecture
 
