@@ -101,68 +101,111 @@ Graphically, the datasets look very similar to the training set, which is a good
 
 ###Design and Test a Model Architecture
 
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+####1. Pre-Processing
 
-As a first step, I decided to convert the images to grayscale because ...
+I experimented with just a few different techniques for pre-processing the data: Conversion to grayscale, normalization and shuffling.
 
-Here is an example of a traffic sign image before and after grayscaling.
+Shuffling the data makes a lot of sense to make sure each batch trained has a collection of the different traffic sign classes and does not only train on one class of signs. this ensures that the gradient will converge faster using the batches.
 
-![alt text][image2]
+At first, I thought that converting the image to grayscale would be a bad idea, as loosing the color information could be critical to the classification of the signs. I seems that I was wrong and the network trains much faster with only grayscale images. I still believe that maybe a more complex network architecture would take advantage of the RGB colors for classification and reach a higher accuracy.
+I guess that working with grayscale helps the network focus on extracting the most important features of each sign.
 
-As a last step, I normalized the image data because ...
+I also played with normalization but it did not help much. The network usually trained much faster with non normalized data...
 
-I decided to generate additional data because ... 
+In the end, I just convert to grayscale and shuffle, and with the right network architecture, I get close to 95% of accuracy.
 
-To add more data to the the data set, I used the following techniques because ... 
+####2. Final model architecture
 
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
-
-
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+My final model is close to LetNet, with slightly bigger to convoluation and fully connected layers, which helps since we have more classes to classify than in LeNet (43 vs 10)
 
 My final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Input         		| 32x32x1 Grayscale							    | 
+| Convolution 5x5     	| 1x1 stride, valid padding, outputs 28x28x32 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
- 
+| Max pooling	      	| 2x2 stride,  outputs 14x14x32 				|
+| Convolution 5x5     	| 1x1 stride, valid padding, outputs 10x10x64 	|
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x64 			     	|
+| Fully Connected		| 240 Outputs									|
+| RELU					|												|
+| Fully Connected		| 120 Outputs									|
+| RELU					|												|
+| Fully Connected		| 43 Outputs									|
 
+####3. Training of the model
 
-####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+I calculated the loss using the cross entropy, with the softmax function on the output logits to calculate probabilies.
+Then I used the Adam optimizer to update the weights of the network.
 
-To train the model, I used an ....
+I played with different sizes of batches, and ended up choosing 128 samples per batch and 20 epochs, which gives a reasonable training time for the network on an AWS instance.
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
+Tuning the different parameters of the network is not an easy task. I started from LeNet's architecture, which was I believe a good starting point.
+
+I refactored different functions to pass all parameters in a dictionary so that I can easily test different architectures without much work. I can also enable/disable the pre-processing steps described above. I had something like this:
+
+```python
+epochs = 20
+batch_size = 128
+rate = 0.001
+hyperparams = {}
+hyperparams['normalization'] = False
+hyperparams['shuffle'] = True
+hyperparams['greyscale'] = True
+hyperparams['epochs'] = epochs
+hyperparams['batch_size'] = batch_size
+hyperparams['rate'] = rate
+hyperparams['mu'] = 0
+hyperparams['sigma'] = 0.1
+hyperparams['input_depth'] = X_train.shape[3]
+hyperparams['filter_size'] = 5
+hyperparams['conv1_depth'] = 32
+hyperparams['conv2_depth'] = 64
+hyperparams['fc1_out_size'] = 240
+hyperparams['fc2_out_size'] = 120
+```
+
+I also saved all those parameters and the cross-validation accuracy in a text file, so that I could easily retrace my steps to a better architecture if I needed to. Training a new network would just append a new result line to the file.
+The content of this file looked like this:
+
+batch_size | conv1_depth | conv2_depth | epochs | fc1_out_size | fc2_out_size | filter_size | greyscale | input_depth | mu | normalization | rate | shuffle | sigma | Valid. Acc.
+---------- | ----------- | ----------- | ------ | ------------ | ------------ | ----------- | --------- | ----------- | -- | ------------- | ---- | ------- | ----- | -----------
+128 | 6 | 16 | 10 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.882312924
+128 | 6 | 16 | 10 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.929931973
+128 | 6 | 16 | 10 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.01 | TRUE | 0.1 | 0.898639456
+256 | 6 | 16 | 10 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.920181406
+256 | 6 | 16 | 10 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.886621314
+512 | 6 | 16 | 10 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.866439912
+512 | 6 | 16 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.877097503
+256 | 6 | 16 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.890702948
+128 | 6 | 16 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.897052154
+64 | 6 | 16 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.901587302
+64 | 6 | 16 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.933106576
+64 | 16 | 32 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.929251701
+128 | 16 | 32 | 20 | 120 | 84 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.93356009
+128 | 16 | 32 | 20 | 240 | 120 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.939682539
+128 | 16 | 32 | 20 | 240 | 120 | 5 | FALSE | 3 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.852154195
+128 | 16 | 32 | 20 | 240 | 120 | 5 | TRUE | 1 | 0 | TRUE | 0.005 | TRUE | 0.1 | 0.054421769
+128 | 16 | 32 | 20 | 240 | 120 | 5 | TRUE | 1 | 0 | FALSE | 0.005 | TRUE | 0.1 | 0.932199546
+128 | 16 | 32 | 20 | 240 | 120 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.931065759
+128 | 32 | 64 | 20 | 240 | 120 | 5 | TRUE | 1 | 0 | FALSE | 0.001 | TRUE | 0.1 | 0.959410431
+
+
+The first parameter that I tuned was the learning rate, just to make sure the network was not training too fast or too slow, which is easy to notice.
+Then I played with the depth of the convolution layers and the size of the fully connected layers.
+My reasoning here was to make the depth of the convolution layers and the fully connected layers bigger than LeNet to take into account the larger number of classes. My belief was that the network would need more feature maps to differentiate the different signs.
+This seems to be true as the network got better with deeper convolutions.
+, and also the different pre-processing techniques.
+
+
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+* training set accuracy of ? (Did not save the training set accuracy)
+* validation set accuracy of 0.959 
+* test set accuracy of 0.94
 
 ###Test a Model on New Images
 
